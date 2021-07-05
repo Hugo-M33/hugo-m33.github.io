@@ -7,27 +7,31 @@ const Card = styled.div`
 border-radius: 25px;
 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 padding: 1.5em;
-min-width: 500px;
+min-width: 450px;
 opacity: ${props => props.status === "OK" ? 1 : props.status === "ONGOING" ? .6 : .3};
 display: flex;
-justify-content: space-around;
+justify-content: space-between;
 align-items: center;
 margin: .5rem 0;
+
+@media screen and (max-width: 700px) {
+    align-self: center !important;
+}
 >div {
     order: ${props => props.style.alignSelf === "flex-end" ? 1 : -1};
 }
 h1 {
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 h2 {
-    font-size: 1rem;
+    font-size: .75rem;
     font-weight: 500;
     color: rgba(0,0,0,.5);
 }
 
 h3 {
-    font-size: .8rem;
+    font-size: .5rem;
     color: rgba(0,0,0,.5);
     font-weight: 600;
 }
@@ -39,11 +43,11 @@ h1,h2,h3 {
 const SchoolCard = ({children, style, status}) => {
     return (
         <Card style={style} status={status}>
-            <div>
+            <div style={{margin: "0 15px"}}>
             {children}
             </div>
             
-            {status === "OK" ? <IoMdCheckmarkCircleOutline color={"lime"} size={32}/> : status === "FUTURE" ? <IoPlayForwardOutline color={"red"} size={32}/> : <IoMdStopwatch color={"orange"} size={32}/>}
+            {status === "OK" ? <IoMdCheckmarkCircleOutline color={"lime"} size={"1.5rem"}/> : status === "FUTURE" ? <IoPlayForwardOutline color={"red"} size={"1.5rem"}/> : <IoMdStopwatch color={"orange"} size={"1.5rem"}/>}
         </Card>
     )
 }
