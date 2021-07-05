@@ -7,7 +7,7 @@ const Card = styled.div`
 border-radius: 25px;
 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 padding: 1.5em;
-min-width: 450px;
+min-width: min(450px, calc(100vw - 50px));
 opacity: ${props => props.status === "OK" ? 1 : props.status === "ONGOING" ? .6 : .3};
 display: flex;
 justify-content: space-between;
