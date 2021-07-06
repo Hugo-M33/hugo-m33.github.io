@@ -1,8 +1,10 @@
 import * as React from "react";
+import {useEffect,useState} from "react";
 import GlobalStyle from "../components/GlobalStyle";
 import styled from "styled-components";
 import ProfilePicture from "../components/ProfilePicture";
 import SchoolCard from "../components/SchoolCard";
+import useScroll from 'react-use-scroll'
 
 const schoolsteps = [
   {
@@ -95,6 +97,14 @@ const ProjectsSection = styled.section`
 
 // markup
 const IndexPage = () => {
+  const scroll = useScroll();
+  const [schoolSeen, setSchoolSeen] = useState(false);
+
+  useEffect(() => {
+    if (scroll >= 200 && !schoolSeen) {
+      setSchoolSeen(true);
+    }
+  }, [scroll, schoolSeen])
   return (
     <Main>
       <GlobalStyle />
@@ -106,9 +116,9 @@ const IndexPage = () => {
         </TextBox>
       </Header>
       <SchoolSection>
-        {schoolsteps.map((step, i) => {
+        {schoolSeen && schoolsteps.map((step, i) => {
           return (
-            <SchoolCard style={{alignSelf: i%2 === 0 ? "flex-end" : "flex-start", textAlign: i%2 === 0 ? "right" : "left"}} status={step.status}>
+            <SchoolCard delay={(1+i)*0.4} style={{alignSelf: i%2 === 0 ? "flex-end" : "flex-start", textAlign: i%2 === 0 ? "right" : "left"}} status={step.status}>
               <h1>{step.title}</h1>
               <h2>{step.location}</h2>
               <h3>{step.year}</h3>

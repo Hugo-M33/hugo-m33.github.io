@@ -2,8 +2,10 @@ import * as React from 'react';
 import styled from "styled-components"
 import {IoMdCheckmarkCircleOutline, IoMdStopwatch} from "react-icons/io"
 import {IoPlayForwardOutline} from "react-icons/io5"
+import {motion} from "framer-motion"
 
-const Card = styled.div`
+
+const Card = styled(motion.div)`
 border-radius: 25px;
 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 padding: 1.5em;
@@ -40,9 +42,9 @@ h1,h2,h3 {
 }
 `
 
-const SchoolCard = ({children, style, status}) => {
+const SchoolCard = ({children, style, status, delay}) => {
     return (
-        <Card style={style} status={status}>
+        <Card style={style} status={status} initial={{opacity: 0, scale: 0}} animate={{scale: 1, opacity: status === "OK" ? 1 : status === "ONGOING" ? .6 : .3, transition: {delay}}}>
             <div style={{margin: "0 15px"}}>
             {children}
             </div>

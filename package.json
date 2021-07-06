@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.13.1",
+    "framer-motion": "^4.1.17",
     "gatsby": "^3.8.1",
     "gatsby-plugin-image": "^1.8.0",
     "gatsby-plugin-manifest": "^3.8.0",
@@ -29,6 +30,7 @@
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.2.0",
+    "react-use-scroll": "^1.0.3",
     "styled-components": "^5.3.0"
   },
   "devDependencies": {
