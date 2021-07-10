@@ -42,9 +42,20 @@ h1,h2,h3 {
 }
 `
 
+
 const SchoolCard = ({children, style, status, delay}) => {
+    const schoolItmVariants = {
+        visible: {
+          scale: 1, 
+          opacity: status === "OK" ? 1 : status === "ONGOING" ? .6 : .3
+        },
+        hidden: {
+          scale: 0, 
+          opacity: 0
+        }
+      }
     return (
-        <Card style={style} status={status} initial={{opacity: 0, scale: 0}} animate={{scale: 1, opacity: status === "OK" ? 1 : status === "ONGOING" ? .6 : .3, transition: {delay}}}>
+        <Card style={style} status={status} variants={schoolItmVariants}>
             <div style={{margin: "0 15px"}}>
             {children}
             </div>

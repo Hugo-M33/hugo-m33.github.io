@@ -1,37 +1,29 @@
 import * as React from "react";
-import {useEffect,useState} from "react";
+import { useEffect, useState } from "react";
 import GlobalStyle from "../components/GlobalStyle";
 import styled from "styled-components";
 import ProfilePicture from "../components/ProfilePicture";
 import SchoolCard from "../components/SchoolCard";
-import useScroll from 'react-use-scroll'
+import useScroll from "react-use-scroll";
+import { graphql } from "gatsby";
+import { motion, useAnimation } from "framer-motion";
 
-const schoolsteps = [
-  {
-    title: "Baccalauréat Scientifique",
-    location: "Lycée Fénelon Notre-Dame - La Rochelle",
-    year: "2019 - 2020",
-    status: "OK"
+
+const schoolSctVariants = {
+  visible: {
+    padding: "60px 30px",
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.3,
+    },
   },
-  {
-    title: "DUT Informatique 1ère année",
-    location: "IUT - Université de Bordeaux",
-    year: "2020 - 2021",
-    status: "OK",
+  hidden: {
+    padding: "0px 0px",
+    transition: {
+      when: "afterChildren",
+    },
   },
-  {
-    title: "DUT Informatique 2ème année",
-    location: "IUT - Université de Bordeaux",
-    year: "2021 - 2022",
-    status: "ONGOING",
-  },
-  {
-    title: "Diplôme d'ingénieur informatique ?",
-    location: "École d'ingénieur en alternance ?",
-    year: "2022 - 2025",
-    status: "FUTURE",
-  },
-];
+};
 
 // Styled Components
 const Main = styled.main`
@@ -68,7 +60,7 @@ const TextBox = styled.div`
   }
 `;
 
-const SchoolSection = styled.section`
+const SchoolSection = styled(motion.section)`
   min-height: 100vh;
   width: 100vw;
 
@@ -96,15 +88,20 @@ const ProjectsSection = styled.section`
 `;
 
 // markup
-const IndexPage = () => {
+const IndexPage = ({ data }) => {
   const scroll = useScroll();
   const [schoolSeen, setSchoolSeen] = useState(false);
+  const schoolSctControls = useAnimation();
 
   useEffect(() => {
-    if (scroll >= 200 && !schoolSeen) {
-      setSchoolSeen(true);
-    }
-  }, [scroll, schoolSeen])
+    const effect = async () => {
+      if (scroll >= 200 && !schoolSeen) {
+        await setSchoolSeen(true);
+        schoolSctControls.start("visible");
+      }
+    };
+    effect();
+  }, [scroll, schoolSeen, schoolSctControls]);
   return (
     <Main>
       <GlobalStyle />
@@ -115,13 +112,24 @@ const IndexPage = () => {
           <h2>Étudiant en informatique</h2>
         </TextBox>
       </Header>
-      <SchoolSection>
-        {schoolSeen && schoolsteps.map((step, i) => {
+      <SchoolSection
+        variants={schoolSctVariants}
+        initial={"hidden"}
+        animate={schoolSctControls}
+      >
+        {data.allMarkdownRemark.edges.map((edge, i) => {
           return (
-            <SchoolCard delay={(1+i)*0.4} style={{alignSelf: i%2 === 0 ? "flex-end" : "flex-start", textAlign: i%2 === 0 ? "right" : "left"}} status={step.status}>
-              <h1>{step.title}</h1>
-              <h2>{step.location}</h2>
-              <h3>{step.year}</h3>
+            <SchoolCard
+              delay={(1 + i) * 0.4}
+              style={{
+                alignSelf: i % 2 === 0 ? "flex-end" : "flex-start",
+                textAlign: i % 2 === 0 ? "right" : "left",
+              }}
+              status={edge.node.frontmatter.status}
+            >
+              <h1>{edge.node.frontmatter.title}</h1>
+              <h2>{edge.node.frontmatter.location}</h2>
+              <h3>{edge.node.frontmatter.date}</h3>
             </SchoolCard>
           );
         })}
@@ -133,5 +141,24 @@ const IndexPage = () => {
     </Main>
   );
 };
+
+export const pageQuery = graphql`
+  query SchoolCardsQuery {
+    allMarkdownRemark(
+      filter: { fields: { collection: { eq: "school-cards-md" } } }
+    ) {
+      edges {
+        node {
+          frontmatter {
+            title
+            status
+            location
+            date
+          }
+        }
+      }
+    }
+  }
+`;
 
 export default IndexPage;

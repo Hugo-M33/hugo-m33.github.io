@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
-    title: "github-portfolio",
+    siteUrl: "https://www.hugo-martin.me",
+    title: "Hugo Martin",
   },
   plugins: [
     "gatsby-plugin-styled-components",
@@ -22,6 +22,24 @@ module.exports = {
         path: "./src/images/",
       },
       __key: "images",
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `school-cards-md`,
+        path: `${__dirname}/src/mdPages/school`,
+      },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        // Footnotes mode (default: true)
+        footnotes: true,
+        // GitHub Flavored Markdown mode (default: true)
+        gfm: true,
+        // Plugins configs
+        plugins: [],
+      },
     },
   ],
 };
