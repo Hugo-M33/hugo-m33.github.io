@@ -7,6 +7,7 @@ import SchoolCard from "../components/SchoolCard";
 import useScroll from "react-use-scroll";
 import { graphql } from "gatsby";
 import { motion, useAnimation } from "framer-motion";
+import Seo from "../components/Seo"
 
 
 const schoolSctVariants = {
@@ -104,6 +105,7 @@ const IndexPage = ({ data }) => {
   }, [scroll, schoolSeen, schoolSctControls]);
   return (
     <Main>
+      <Seo/>
       <GlobalStyle />
       <Header>
         <ProfilePicture />

@@ -1,7 +1,10 @@
 module.exports = {
   siteMetadata: {
     siteUrl: "https://www.hugo-martin.me",
+    url: "https://www.hugo-martin.me",
     title: "Hugo Martin",
+    description: "Étudiant en DUT Informatique",
+    email: "hugo.martin.duloz@gmail.com"
   },
   plugins: [
     "gatsby-plugin-styled-components",
